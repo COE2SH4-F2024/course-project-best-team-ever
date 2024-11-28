@@ -4,7 +4,7 @@
 #include "objPos.h"
 
 #include "GameMechs.h"
-//#include ""
+
 
 #define WIDTH 20  // x-axis from 0 to 19
 #define HEIGHT 10 // y-axis from 0 to 10
@@ -64,57 +64,71 @@ void Initialize(void)
 
     myPlayer = new Player(gamemechs);
 
+
+    objPos playerPos = myPlayer -> getPlayerPos();
+    gamemechs->generateFood(playerPos);
+
+
+
      // Generate random items with unique positions
-    for (int i = 0; i < 3; i++) {
-        char randomChar;
-        int valid = 0;
+    // for (int i = 0; i < 3; i++) {
+    //     char randomChar;
+    //     int valid = 0;
 
-        // Generate a valid random character
-        while (!valid) {
-            randomChar = static_cast<char>(33 + rand() % (126 - 33 + 1));
-            bool excluded = false;
-            for (char ch : excludedChars) {
-                if (randomChar == ch) {
-                    excluded = true;
-                    break;
-                }
-            }
-            if (!excluded) {
-                valid = 1;
-            }
-        }
+    //     // Generate a valid random character
+    //     while (!valid) {
+    //         randomChar = static_cast<char>(33 + rand() % (126 - 33 + 1));
+    //         bool excluded = false;
+    //         for (char ch : excludedChars) {
+    //             if (randomChar == ch) {
+    //                 excluded = true;
+    //                 break;
+    //             }
+    //         }
+    //         if (!excluded) {
+    //             valid = 1;
+    //         }
+    //     }
 
-        int x, y;
-        bool uniquePos = false;
+    //     int x, y;
+    //     bool uniquePos = false;
 
-        // Generate a unique position for each item
-        while (!uniquePos) {
-            x = 1 + rand() % (WIDTH - 2);  // Avoid borders
-            y = 1 + rand() % (HEIGHT - 2);
+    //     // Generate a unique position for each item
+    //     while (!uniquePos) {
+    //         x = 1 + rand() % (WIDTH - 2);  // Avoid borders
+    //         y = 1 + rand() % (HEIGHT - 2);
 
-            uniquePos = true;
+    //         uniquePos = true;
 
-            // Check for overlap with other items
-            for (int j = 0; j < i; j++) {
-                if (itemBin[j].pos->x == x && itemBin[j].pos->y == y) {
-                    uniquePos = false;
-                    break;
-                }
-            }
-        }
+    //         // Check for overlap with other items
+    //         for (int j = 0; j < i; j++) {
+    //             if (itemBin[j].pos->x == x && itemBin[j].pos->y == y) {
+    //                 uniquePos = false;
+    //                 break;
+    //             }
+    //         }
+    //     }
 
-        // Assign the item to the bin
-        itemBin[i] = objPos(x, y, randomChar);
-    }
+    //     // Assign the item to the bin
+    //     itemBin[i] = objPos(x, y, randomChar);
+    // }
 
 }
 
 void GetInput(void)
 {
-  //char input = gamemechs->getInput();
-  if (MacUILib_hasChar())
-    gamemechs->setInput(MacUILib_getChar());
-}
+  //if (MacUILib_hasChar())
+    //gamemechs->setInput(MacUILib_getChar());
+if (MacUILib_hasChar()) {
+        char input = MacUILib_getChar();
+        gamemechs->setInput(input);
+
+        // Debug key to regenerate food
+        if (input == 'F') { 
+            objPos playerPos = myPlayer->getPlayerPos();
+            gamemechs->generateFood(playerPos);
+
+}}}
 
 void RunLogic(void)
 {
@@ -165,10 +179,15 @@ void DrawScreen(void)
             }
         }
     }
+
+
+    objPos foodPos = gamemechs ->getFoodpos();
+    board[foodPos.pos->y][foodPos.pos->x]=foodPos.symbol;
+
  // Place items on the board
-    for (int i = 0; i < 3; i++) {
-        board[itemBin[i].pos->y][itemBin[i].pos->x] = itemBin[i].getSymbol();
-    }
+    // for (int i = 0; i < 3; i++) {
+    //     board[itemBin[i].pos->y][itemBin[i].pos->x] = itemBin[i].getSymbol();
+    // }
 
     objPos playerPos = myPlayer->getPlayerPos(); 
     board[playerPos.pos->y][playerPos.pos->x] = playerPos.symbol;

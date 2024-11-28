@@ -11,7 +11,7 @@ GameMechs::GameMechs()
     score=0;
     boardSizeX=30;
     boardSizeY=15;
-
+    srand(time(0));
 }
 
 GameMechs::GameMechs(int boardX, int boardY) 
@@ -22,6 +22,8 @@ GameMechs::GameMechs(int boardX, int boardY)
     score=0;
     boardSizeX = boardX;
     boardSizeY=boardY;
+    srand(time(0));
+
 }
 
 // do you need a destructor?
@@ -92,3 +94,25 @@ void GameMechs::clearInput()
 
 
 // More methods should be added here
+
+void GameMechs::generateFood(objPos blockOff){
+    bool validPos = false;
+    int x,y;
+
+    while(!validPos){
+        x=1+rand()%(boardSizeX-2);
+        y=1+rand()%(boardSizeY-2);
+    
+
+    if( x!=blockOff.pos->x||y!=blockOff.pos->y){
+        validPos=true;
+    }}
+
+    foodPos = objPos(x,y,'*');
+
+    MacUILib_printf("Generated Food Position: (%d, %d)\n", foodPos.pos->x, foodPos.pos->y);
+}
+
+objPos GameMechs::getFoodpos() const{
+    return foodPos;
+}
