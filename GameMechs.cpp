@@ -1,5 +1,6 @@
 #include "GameMechs.h"
-#include "MacUILib.h"
+#include "MacUILib.h" 
+#include "Player.h"
 
 
 
@@ -53,7 +54,12 @@ char GameMechs::getInput() const
 
 int GameMechs::getScore() const
 {
-    return score;
+    
+
+
+    return playerPosList->getSize() - 1;
+
+    
 }
 
 void GameMechs::incrementScore()
@@ -95,22 +101,38 @@ void GameMechs::clearInput()
 
 // More methods should be added here
 
-void GameMechs::generateFood(objPos blockOff){
+void GameMechs::generateFood(const objPosArrayList& playerPosList){
     bool validPos = false;
     int x,y;
 
     while(!validPos){
         x=1+rand()%(boardSizeX-2);
         y=1+rand()%(boardSizeY-2);
+
+        validPos=true; 
+
+        for(int i = 0; i < playerPosList.getSize(); i++){ 
+
+            objPos snakeSegment = playerPosList.getElement(i);
+            if (snakeSegment.pos->x == x && snakeSegment.pos->y == y){
+                validPos = false; 
+                break; 
+            }
+        } 
+
+        if(validPos){
+            foodPos = objPos(x,y,'*'); 
+        }
     
 
-    if( x!=blockOff.pos->x||y!=blockOff.pos->y){
-        validPos=true;
-    }}
+    // if( x!=blockOff.pos->x||y!=blockOff.pos->y){
+    //     validPos=true;
+    // }
+    }
 
-    foodPos = objPos(x,y,'*');
+    // foodPos = objPos(x,y,'*');
 
-    MacUILib_printf("Generated Food Position: (%d, %d)\n", foodPos.pos->x, foodPos.pos->y);
+    // MacUILib_printf("Generated Food Position: (%d, %d)\n", foodPos.pos->x, foodPos.pos->y);
 }
 
 objPos GameMechs::getFoodpos() const{

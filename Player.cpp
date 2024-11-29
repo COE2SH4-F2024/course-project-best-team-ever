@@ -17,7 +17,7 @@ Player::Player(GameMechs* thisGMRef)
     int headY = mainGameMechsRef ->getBoardSizeY()/2;
     // playerPos.symbol = '*'; 
 
-    int initialength = 7; 
+    int initialength = 1; 
 
     for(int i = 0; i < initialength; i++){ 
         objPos segment; 
@@ -150,11 +150,28 @@ void Player::movePlayer()
             break;
     } 
 
-    playerPosList->insertHead(newHead); 
-    playerPosList->removeTail(); 
+    // playerPosList->insertHead(newHead); 
+    // playerPosList->removeTail();  
+
+    objPos foodPos = mainGameMechsRef->getFoodpos(); 
+
+    if(newHead.pos->x == foodPos.pos->x && newHead.pos->y == foodPos.pos->y){ 
+        playerPosList->insertHead(newHead); 
+        mainGameMechsRef->generateFood(*playerPosList); 
+
+    } 
+    else{
+        playerPosList->insertHead(newHead); 
+        playerPosList->removeTail(); 
+    }
 
     // currHead.pos->x = newX; 
-    // currHead.pos->y = newY; 
+    // currHead.pos->y = newY;  
+
+
 }
 
+// int Player::getSnakeLength() const{
+//     return playerPosList->getSize(); 
+// }
 // More methods to be added

@@ -17,7 +17,9 @@ GameMechs* gamemechs;
 
 // Global variables
 objPos itemBin[3];      // Array to hold items
-const char excludedChars[] = {'#'}; // Excluded characters for random generation
+const char excludedChars[] = {'#'}; // Excluded characters for random generation 
+
+
 
 using namespace std;
 
@@ -46,7 +48,6 @@ int main(void)
         DrawScreen();
         LoopDelay();
     }
-
     CleanUp();
 
 }
@@ -67,7 +68,7 @@ void Initialize(void)
 
 
     objPos playerPos = myPlayer -> getPlayerPos() -> getElement(0);
-    gamemechs->generateFood(playerPos);
+    gamemechs->generateFood(*(myPlayer->getPlayerPos()));
 
 
 
@@ -130,7 +131,7 @@ if (MacUILib_hasChar()) {
 
             if(playerPosList->sizeList > 0){
                 objPos playerPos = playerPosList->getElement(0); 
-                gamemechs->generateFood(playerPos);
+                gamemechs->generateFood(*(myPlayer->getPlayerPos()));
             }
             
 
@@ -214,6 +215,9 @@ void DrawScreen(void)
         
     }
     
+    if(gamemechs->getExitFlagStatus()){
+        MacUILib_printf("Final score is: %d", gamemechs->getScore()); 
+    }
 
     
 
