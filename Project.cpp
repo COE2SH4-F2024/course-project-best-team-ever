@@ -59,13 +59,14 @@ void Initialize(void)
 
 
     //Create the GameMechs object on the heap
-    gamemechs = new GameMechs(WIDTH, HEIGHT);
+    gamemechs = new GameMechs(WIDTH, HEIGHT); 
 
+    
 
     myPlayer = new Player(gamemechs);
 
 
-    objPos playerPos = myPlayer -> getPlayerPos();
+    objPos playerPos = myPlayer -> getPlayerPos() -> getElement(0);
     gamemechs->generateFood(playerPos);
 
 
@@ -125,10 +126,17 @@ if (MacUILib_hasChar()) {
 
         // Debug key to regenerate food
         if (input == 'F') { 
-            objPos playerPos = myPlayer->getPlayerPos();
-            gamemechs->generateFood(playerPos);
+            objPosArrayList* playerPosList = myPlayer->getPlayerPos(); 
 
-}}}
+            if(playerPosList->sizeList > 0){
+                objPos playerPos = playerPosList->getElement(0); 
+                gamemechs->generateFood(playerPos);
+            }
+            
+
+        }
+    }
+}
 
 void RunLogic(void)
 {
@@ -189,8 +197,13 @@ void DrawScreen(void)
     //     board[itemBin[i].pos->y][itemBin[i].pos->x] = itemBin[i].getSymbol();
     // }
 
-    objPos playerPos = myPlayer->getPlayerPos(); 
-    board[playerPos.pos->y][playerPos.pos->x] = playerPos.symbol;
+    objPosArrayList* playerPositions = myPlayer->getPlayerPos();  
+
+    for(int i = 0; i < playerPositions->getSize(); i++){
+        objPos segment = playerPositions->getElement(i);
+        board[segment.pos->y][segment.pos->x] = segment.symbol; 
+    }
+    
 
     // Print game board
     for (int y = 0; y < HEIGHT; y++) {
