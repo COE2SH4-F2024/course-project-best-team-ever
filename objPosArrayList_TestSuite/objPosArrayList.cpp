@@ -11,6 +11,36 @@ objPosArrayList::objPosArrayList()
     sizeList = 0; 
     sizeArray = arrayCapacity;  
     
+} 
+
+objPosArrayList::objPosArrayList(const objPosArrayList &other){ 
+    arrayCapacity = other.arrayCapacity; 
+    sizeArray = other.sizeArray; 
+    sizeList = other.sizeList; 
+
+    aList = new objPos[arrayCapacity]; 
+    for(int i = 0; i < sizeList; i++){
+        aList[i] = other.aList[i]; 
+    }
+
+} 
+
+objPosArrayList& objPosArrayList::operator=(const objPosArrayList& other){
+    if(this != &other){
+        delete[] aList; 
+
+        arrayCapacity = other.arrayCapacity; 
+        sizeArray = other.sizeArray; 
+
+        aList = new objPos[arrayCapacity]; 
+        for(int i = 0; i < sizeList; i++){
+            aList[i] = other.aList[i]; 
+        }
+    }  
+
+    return *this; 
+
+
 }
 
 objPosArrayList::~objPosArrayList()

@@ -10,12 +10,14 @@ class objPosArrayList
     private:
         objPos* aList;
         int listSize;
-        int arrayCapacity;
+        int arrayCapacity; 
+        int sizeList; 
+        int sizeArray; 
 
     public:
         objPosArrayList();
-        int sizeList; 
-        int sizeArray; 
+        objPosArrayList(const objPosArrayList& other); 
+        objPosArrayList& operator=(const objPosArrayList& other); 
         ~objPosArrayList();
 
         int getSize() const;
