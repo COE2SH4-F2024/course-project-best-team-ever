@@ -54,12 +54,7 @@ char GameMechs::getInput() const
 
 int GameMechs::getScore() const
 {
-    
-
-
     return playerPosList->getSize() - 1;
-
-    
 }
 
 void GameMechs::incrementScore()
