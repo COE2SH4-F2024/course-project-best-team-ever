@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameMechs.h"
+#include "objPos.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -153,11 +154,22 @@ void Player::movePlayer()
     // playerPosList->insertHead(newHead); 
     // playerPosList->removeTail();  
 
+    int snakeLength = playerPosList->getSize();
+    for (int i=0; i<snakeLength; i++){
+        objPos segment = playerPosList->getElement(i);
+        if (segment.pos->x  == newHead.pos->x && segment.pos->y  == newHead.pos->y){
+            mainGameMechsRef->setLoseFlag();
+            //mainGameMechsRef->getExitFlagStatus();
+            //return;
+        }
+    }
+
     objPos foodPos = mainGameMechsRef->getFoodpos(); 
 
     if(newHead.pos->x == foodPos.pos->x && newHead.pos->y == foodPos.pos->y){ 
         playerPosList->insertHead(newHead); 
         mainGameMechsRef->generateFood(*playerPosList); 
+        mainGameMechsRef->incrementScore();
 
     } 
     else{

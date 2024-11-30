@@ -129,7 +129,7 @@ if (MacUILib_hasChar()) {
         if (input == 'F') { 
             objPosArrayList* playerPosList = myPlayer->getPlayerPos(); 
 
-            if(playerPosList->sizeList > 0){
+            if(playerPosList->sizeList> 0){
                 objPos playerPos = playerPosList->getElement(0); 
                 gamemechs->generateFood(*(myPlayer->getPlayerPos()));
             }
@@ -169,7 +169,7 @@ void RunLogic(void)
     
     //myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
-    gamemechs->incrementScore();
+    //gamemechs->incrementScore();
     gamemechs->clearInput();
 }
 
@@ -214,10 +214,17 @@ void DrawScreen(void)
         MacUILib_printf("\n");
         
     }
-    
-    if(gamemechs->getExitFlagStatus()){
-        MacUILib_printf("Final score is: %d", gamemechs->getScore()); 
-    }
+    int score = gamemechs->getScore();
+    if (gamemechs->getLoseFlagStatus()){
+        //gamemechs->setExitTrue();
+       MacUILib_printf("You Lost ");
+       MacUILib_printf("Final score is: %d", score); 
+
+   }
+
+    //if(gamemechs->getExitFlagStatus()){
+      //  MacUILib_printf("Final score is: %d", gamemechs->getScore()); 
+    //}
 
     
 
