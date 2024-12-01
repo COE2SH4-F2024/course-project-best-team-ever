@@ -10,8 +10,11 @@ GameMechs::GameMechs()
     exitFlag=0;
     loseFlag=0;
     score=0;
-    boardSizeX=30;
-    boardSizeY=15;
+    //Default board width
+    boardSizeX=30; 
+    //Default board height 
+    boardSizeY=15; 
+    //seed randmon number generator to ensure same number isn't produced twice
     srand(time(0));
 }
 
@@ -95,25 +98,29 @@ void GameMechs::clearInput()
 // More methods should be added here
 
 void GameMechs::generateFood(const objPosArrayList& playerPosList){
-    bool validPos = false;
+    bool validPos = false; //Flag used to check if position is valid
     int x,y;
 
-    while(!validPos){
+    while(!validPos){ 
+        //Randomly generating coordinates within the boarder 
         x=1+rand()%(boardSizeX-2);
         y=1+rand()%(boardSizeY-2);
 
-        validPos=true; 
+        validPos=true;  //Assume generated position is valid
 
         for(int i = 0; i < playerPosList.getSize(); i++){ 
 
             objPos snakeSegment = playerPosList.getElement(i);
             if (snakeSegment.pos->x == x && snakeSegment.pos->y == y){
+                //If player's position is already at the generated coordinates,
+                //then invalid coordinates
                 validPos = false; 
                 break; 
             }
         } 
 
-        if(validPos){
+        if(validPos){ 
+            //If coordinates remain valid assigned food position to those coordinates
             foodPos = objPos(x,y,'*'); 
         }
     }
