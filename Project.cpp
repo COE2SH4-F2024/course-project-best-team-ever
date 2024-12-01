@@ -6,8 +6,8 @@
 #include "GameMechs.h"
 
 
-#define WIDTH 20  // x-axis from 0 to 19
-#define HEIGHT 10 // y-axis from 0 to 10
+#define WIDTH 30  // x-axis from 0 to 29
+#define HEIGHT 15 // y-axis from 0 to 14
 
 //Declare a pointer to Player class
 Player *myPlayer;
