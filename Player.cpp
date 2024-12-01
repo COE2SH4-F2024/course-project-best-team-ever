@@ -11,13 +11,10 @@ Player::Player(GameMechs* thisGMRef)
 
     // more actions to be included
     
-
     playerPosList = new objPosArrayList(); 
    
     int headX = mainGameMechsRef ->getBoardSizeX()/2;
     int headY = mainGameMechsRef ->getBoardSizeY()/2;
-    // playerPos.symbol = '*'; 
-
     int initialength = 1; 
 
     for(int i = 0; i < initialength; i++){ 
@@ -31,10 +28,6 @@ Player::Player(GameMechs* thisGMRef)
         playerPosList-> insertHead(segment);  
 
     }
-
-    //playerPosList-> insertHead(objPos(headX, headY, '*')); 
-    
-
 }
 
 
@@ -103,11 +96,7 @@ void Player::movePlayer()
 
     objPos head = playerPosList->getHeadElement(); 
     objPos newHead = head; 
-
-    // int newX = currHead.pos->x; 
-    // int newY = currHead.pos ->y; 
-
-    
+ 
         switch(myDir){
             case UP:
                 if(newHead.pos->y  > 1){
@@ -149,18 +138,14 @@ void Player::movePlayer()
 
         default:
             break;
-    } 
-
-    // playerPosList->insertHead(newHead); 
-    // playerPosList->removeTail();  
+    }   
 
     int snakeLength = playerPosList->getSize();
-    for (int i=0; i<snakeLength; i++){
+    for (int i=1; i<snakeLength; i++){
         objPos segment = playerPosList->getElement(i);
         if (segment.pos->x  == newHead.pos->x && segment.pos->y  == newHead.pos->y){
             mainGameMechsRef->setLoseFlag();
-            //mainGameMechsRef->getExitFlagStatus();
-            //return;
+            
         }
     }
 
@@ -176,14 +161,7 @@ void Player::movePlayer()
         playerPosList->insertHead(newHead); 
         playerPosList->removeTail(); 
     }
-
-    // currHead.pos->x = newX; 
-    // currHead.pos->y = newY;  
-
-
 }
 
-// int Player::getSnakeLength() const{
-//     return playerPosList->getSize(); 
-// }
+
 // More methods to be added

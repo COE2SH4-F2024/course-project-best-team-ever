@@ -15,12 +15,6 @@ Player *myPlayer;
 //Declare a global pointer to the GameMechs class
 GameMechs* gamemechs;
 
-// Global variables
-objPos itemBin[3];      // Array to hold items
-const char excludedChars[] = {'#'}; // Excluded characters for random generation 
-
-
-
 using namespace std;
 
 #define DELAY_CONST 100000
@@ -47,6 +41,7 @@ int main(void)
         RunLogic();
         DrawScreen();
         LoopDelay();
+
     }
     CleanUp();
 
@@ -58,69 +53,19 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-
     //Create the GameMechs object on the heap
     gamemechs = new GameMechs(WIDTH, HEIGHT); 
 
-    
-
     myPlayer = new Player(gamemechs);
-
 
     objPos playerPos = myPlayer -> getPlayerPos() -> getElement(0);
     gamemechs->generateFood(*(myPlayer->getPlayerPos()));
-
-
-
-     // Generate random items with unique positions
-    // for (int i = 0; i < 3; i++) {
-    //     char randomChar;
-    //     int valid = 0;
-
-    //     // Generate a valid random character
-    //     while (!valid) {
-    //         randomChar = static_cast<char>(33 + rand() % (126 - 33 + 1));
-    //         bool excluded = false;
-    //         for (char ch : excludedChars) {
-    //             if (randomChar == ch) {
-    //                 excluded = true;
-    //                 break;
-    //             }
-    //         }
-    //         if (!excluded) {
-    //             valid = 1;
-    //         }
-    //     }
-
-    //     int x, y;
-    //     bool uniquePos = false;
-
-    //     // Generate a unique position for each item
-    //     while (!uniquePos) {
-    //         x = 1 + rand() % (WIDTH - 2);  // Avoid borders
-    //         y = 1 + rand() % (HEIGHT - 2);
-
-    //         uniquePos = true;
-
-    //         // Check for overlap with other items
-    //         for (int j = 0; j < i; j++) {
-    //             if (itemBin[j].pos->x == x && itemBin[j].pos->y == y) {
-    //                 uniquePos = false;
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     // Assign the item to the bin
-    //     itemBin[i] = objPos(x, y, randomChar);
-    // }
 
 }
 
 void GetInput(void)
 {
-  //if (MacUILib_hasChar())
-    //gamemechs->setInput(MacUILib_getChar());
+
 if (MacUILib_hasChar()) {
         char input = MacUILib_getChar();
         gamemechs->setInput(input);
@@ -142,34 +87,13 @@ if (MacUILib_hasChar()) {
 void RunLogic(void)
 {
   
-    // if (input!=0){
-    //     switch(input)
-    //     {
-    //         case ' ':
-    //             gamemechs->setExitTrue();
-    //             break;
-
-         
-    //         case 'l': // Debug key to trigger lose flag
-    //             gamemechs->setLoseFlag();
-    //             cout << "[DEBUG] Lose flag triggered!" << endl;
-    //             break;
-
-    //         default:
-    //             myPlayer->updatePlayerDir();
-    //            break;
-
-        //}
-    //}
    if (gamemechs->getInput()!=0){
         if(gamemechs->getInput()== ' ')
             gamemechs->setExitTrue();
         myPlayer->updatePlayerDir();
    }
     
-    //myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
-    //gamemechs->incrementScore();
     gamemechs->clearInput();
 }
 
@@ -193,11 +117,6 @@ void DrawScreen(void)
     objPos foodPos = gamemechs ->getFoodpos();
     board[foodPos.pos->y][foodPos.pos->x]=foodPos.symbol;
 
- // Place items on the board
-    // for (int i = 0; i < 3; i++) {
-    //     board[itemBin[i].pos->y][itemBin[i].pos->x] = itemBin[i].getSymbol();
-    // }
-
     objPosArrayList* playerPositions = myPlayer->getPlayerPos();  
 
     for(int i = 0; i < playerPositions->getSize(); i++){
@@ -215,19 +134,15 @@ void DrawScreen(void)
         
     }
     int score = gamemechs->getScore();
+    MacUILib_printf("Score: %d\n", score);
     if (gamemechs->getLoseFlagStatus()){
-        //gamemechs->setExitTrue();
-       MacUILib_printf("You Lost ");
-       MacUILib_printf("Final score is: %d", score); 
-
+       MacUILib_printf("GAME OVER.\nYou Lost!");
+       gamemechs->setExitTrue();
    }
 
-    //if(gamemechs->getExitFlagStatus()){
-      //  MacUILib_printf("Final score is: %d", gamemechs->getScore()); 
-    //}
-
-    
-
+    else if (gamemechs->getExitFlagStatus()) {
+     MacUILib_printf("GAME OVER.\nYou ended the game!");
+   }
 
 }
 

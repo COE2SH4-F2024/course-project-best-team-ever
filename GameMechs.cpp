@@ -41,9 +41,7 @@ bool GameMechs::getExitFlagStatus() const
 
 bool GameMechs::getLoseFlagStatus() const
 {
-
     return loseFlag;
-
 }
     
 
@@ -54,7 +52,6 @@ char GameMechs::getInput() const
 
 int GameMechs::getScore() const
 {
-    //return playerPosList->getSize() - 1
     return score;
 }
 
@@ -119,16 +116,7 @@ void GameMechs::generateFood(const objPosArrayList& playerPosList){
         if(validPos){
             foodPos = objPos(x,y,'*'); 
         }
-    
-
-    // if( x!=blockOff.pos->x||y!=blockOff.pos->y){
-    //     validPos=true;
-    // }
     }
-
-    // foodPos = objPos(x,y,'*');
-
-    // MacUILib_printf("Generated Food Position: (%d, %d)\n", foodPos.pos->x, foodPos.pos->y);
 }
 
 objPos GameMechs::getFoodpos() const{

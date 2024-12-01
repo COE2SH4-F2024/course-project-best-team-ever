@@ -27,8 +27,6 @@ class Player
         void updatePlayerDir();
         void movePlayer();
 
-        // int getSnakeLength() const;
-
         // More methods to be added here
 
     private:
