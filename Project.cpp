@@ -9,7 +9,7 @@
 #define WIDTH 20  // x-axis from 0 to 19
 #define HEIGHT 10 // y-axis from 0 to 10
 
-//GameMechs* gamemechs = new GameMechs;
+//Declare a pointer to Player class
 Player *myPlayer;
 
 //Declare a global pointer to the GameMechs class
@@ -56,8 +56,10 @@ void Initialize(void)
     //Create the GameMechs object on the heap
     gamemechs = new GameMechs(WIDTH, HEIGHT); 
 
+    //Create the Player object on the heap
     myPlayer = new Player(gamemechs);
 
+    
     objPos playerPos = myPlayer -> getPlayerPos() -> getElement(0);
     gamemechs->generateFood(*(myPlayer->getPlayerPos()));
 
@@ -74,6 +76,7 @@ if (MacUILib_hasChar()) {
         if (input == 'F') { 
             objPosArrayList* playerPosList = myPlayer->getPlayerPos(); 
 
+            //if there are positions in the player list, generate food
             if(playerPosList->sizeList> 0){
                 objPos playerPos = playerPosList->getElement(0); 
                 gamemechs->generateFood(*(myPlayer->getPlayerPos()));
@@ -88,13 +91,13 @@ void RunLogic(void)
 {
   
    if (gamemechs->getInput()!=0){
-        if(gamemechs->getInput()== ' ')
+        if(gamemechs->getInput()== ' ') 
             gamemechs->setExitTrue();
-        myPlayer->updatePlayerDir();
+        myPlayer->updatePlayerDir(); //update player direction based on input
    }
     
-    myPlayer->movePlayer();
-    gamemechs->clearInput();
+    myPlayer->movePlayer(); //move the player
+    gamemechs->clearInput(); // clear the input after processing
 }
 
 void DrawScreen(void)
@@ -113,10 +116,11 @@ void DrawScreen(void)
         }
     }
 
-
+    //Get the position of the food and place it on the board
     objPos foodPos = gamemechs ->getFoodpos();
     board[foodPos.pos->y][foodPos.pos->x]=foodPos.symbol;
 
+    //Get the player's position and place on board
     objPosArrayList* playerPositions = myPlayer->getPlayerPos();  
 
     for(int i = 0; i < playerPositions->getSize(); i++){
@@ -131,10 +135,13 @@ void DrawScreen(void)
             MacUILib_printf("%c", board[y][x]);
         }
         MacUILib_printf("\n");
-        
     }
+
+    //Display current score
     int score = gamemechs->getScore();
     MacUILib_printf("Score: %d\n", score);
+
+    //Check for game over conditions
     if (gamemechs->getLoseFlagStatus()){
        MacUILib_printf("GAME OVER.\nYou Lost!");
        gamemechs->setExitTrue();
@@ -154,8 +161,6 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    //MacUILib_clearScreen();    
-
     delete gamemechs;
     delete myPlayer;
     MacUILib_uninit();
