@@ -24,7 +24,7 @@ Player::Player(GameMechs* thisGMRef)
         segment.pos = new Pos; 
         segment.pos->x = headX - i; 
         segment.pos->y = headY; 
-        segment.symbol = '*'; 
+        segment.symbol = '@'; 
 
         //insert the new segment at the head of the list
         playerPosList-> insertHead(segment);  

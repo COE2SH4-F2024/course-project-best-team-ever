@@ -6,14 +6,16 @@
 #include "GameMechs.h"
 
 
-#define WIDTH 30  // x-axis from 0 to 29
-#define HEIGHT 15 // y-axis from 0 to 14
+
 
 //Declare a pointer to Player class
 Player *myPlayer;
 
 //Declare a global pointer to the GameMechs class
-GameMechs* gamemechs;
+GameMechs* gamemechs; 
+
+
+
 
 using namespace std;
 
@@ -53,8 +55,9 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
+    
     //Create the GameMechs object on the heap
-    gamemechs = new GameMechs(WIDTH, HEIGHT); 
+    gamemechs = new GameMechs(30,15); 
 
     //Create the Player object on the heap
     myPlayer = new Player(gamemechs);
@@ -101,14 +104,16 @@ void RunLogic(void)
 }
 
 void DrawScreen(void)
-{
+{ 
+    int height = gamemechs->getBoardSizeY(); 
+    int width = gamemechs->getBoardSizeX(); 
     MacUILib_clearScreen();    
-    char board[HEIGHT][WIDTH]={0};
+    char board[height][width]={0};
 
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
             // Set borders to '#', fill the inside with spaces
-            if (y == 0 || y == HEIGHT - 1 || x == 0 || x == WIDTH - 1) {
+            if (y == 0 || y == height - 1 || x == 0 || x == width - 1) {
                 board[y][x] = '#';
             } else {
                 board[y][x] = ' ';
@@ -130,8 +135,8 @@ void DrawScreen(void)
     
 
     // Print game board
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
             MacUILib_printf("%c", board[y][x]);
         }
         MacUILib_printf("\n");

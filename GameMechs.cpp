@@ -121,7 +121,7 @@ void GameMechs::generateFood(const objPosArrayList& playerPosList){
 
         if(validPos){ 
             //If coordinates remain valid assigned food position to those coordinates
-            foodPos = objPos(x,y,'*'); 
+            foodPos = objPos(x,y,'o'); 
         }
     }
 }
